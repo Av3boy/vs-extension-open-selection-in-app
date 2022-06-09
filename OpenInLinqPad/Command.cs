@@ -104,34 +104,25 @@ namespace OpenInLinqPad
             Assumes.Present(dte);
             if (dte.ActiveDocument?.Selection is TextSelection selection)
             {
-                
-                MessageBox.Show(selection.Text);
 
                 string pathToTemp = System.IO.Path.GetTempPath();
                 string id = Guid.NewGuid().ToString();
-
                 string tempFilePath = System.IO.Path.Combine(pathToTemp, $"{id}.cs");
 
                 File.WriteAllText(tempFilePath, selection.Text);
 
                 var app = @"LINQPad7.exe";
-
                 string command = $"/c start {app} {tempFilePath}";
 
                 var processInfo = new ProcessStartInfo("cmd.exe", command);
-                processInfo.CreateNoWindow = false;
-                processInfo.UseShellExecute = false;
-
                 var process = System.Diagnostics.Process.Start(processInfo);
 
                 process.WaitForExit();
-
-                Console.WriteLine("ExitCode: {0}", process.ExitCode);
                 process.Close();
             }
             else
             {
-                MessageBox.Show("Selection was empty");
+                MessageBox.Show("Selection was empty.");
             }
         }
     }
